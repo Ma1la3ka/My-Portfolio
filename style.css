@@ -1,0 +1,66 @@
+/* body{
+    background-color: black;
+    justify-content: center;
+    align-items: center;
+}
+.body1 sticky{
+    position: sticky;
+    z-index: 1000;
+    top: 0;
+}
+*{
+    padding: 0px;
+    margin: px;
+}
+.body1{
+    background-color: white;
+    overlay: inherit;
+    width:1800px;
+    justify-self: center;
+    height: 3000px;
+    border-radius: 20px;
+    font-size: 20px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    display: flex;
+    justify-content:center;
+
+}
+
+.sticky nav{
+    /* display: flex;
+    justify-content: space-;
+    /* gap: 60px; */
+    /* text-decoration: none; */
+    /* gap: 200px; */
+/* }  */
+
+.type{
+    position: absolute;
+    left: 300px;
+    top: 170px;
+    font-size: 40px;
+    font-weight: bold;
+    color: #4299e1;
+    animation: typing 4s steps(15) forwards,
+               erase 4s steps(15) 8s forwards infinite;
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 4px solid #4299e1;
+}
+
+@keyframes typing {
+    from {
+        width: 0;
+    }
+    to {
+        width: 600px;
+    }
+}
+@keyframes erase {
+    from {
+        width: 600px;
+    }
+    to{
+        width: 0;
+    }
+}
