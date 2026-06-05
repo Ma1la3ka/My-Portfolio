@@ -1,50 +1,312 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ALPHA PORTFOLIO</title>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Raji Abdul Malik — AI/ML Engineer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Unbounded:wght@300;400;700;900&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
 </head>
-<link rel="stylesheet" href="style.css">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+<body>
 
-<body style="background-color: black;">
-  
- <nav class="navbar navbar-expand-lg navbar-dark sticky-top" style="background-color: #1a202c;">
-  <div class="container-fluid" ">
-    <a class="navbar-brand" href="#" style=" font-size: 30px; margin-left: 120px; ">AbdulMalik Raji</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#" style="margin-left: 1100px; font-size: 20px;">About me</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#" style="font-size: 20px; " >Services</a>
-        </li>
-       
-        <li class="nav-item">
-          <a class="nav-link " style="font-size: 20px;" > Contact</a>
-        </li>
-      </ul>
-      <!-- <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form> -->
+<div id="cur"></div>
+<div id="cur-ring"></div>
+
+<!-- =============================================
+     BOOT SCREEN
+     ============================================= -->
+<div id="boot">
+  <div class="boot-scanlines"></div>
+  <div class="boot-noise"></div>
+  <div class="boot-corner tl">NEURAL_OS v4.1.0</div>
+  <div class="boot-corner tr">SYS_ID: RAM-2025</div>
+  <div class="boot-corner bl" id="boot-time">--:--:--</div>
+  <div class="boot-corner br">MEM: 0kb / 0kb</div>
+  <div id="boot-lines"></div>
+  <div class="boot-progress-wrap">
+    <div class="boot-progress-label" id="boot-prog-lbl">INITIALIZING...</div>
+    <div class="boot-progress-bar">
+      <div class="boot-progress-fill" id="boot-fill"></div>
     </div>
   </div>
-</nav>
-<div class="face d-flex align-items-start" style="background-color: white; height: 1000px; width: 1700px; justify-self: center ; border-radius: 30px; margin-top: 30px; position: relative;">
-  <h1 style="position: absolute; left: 150px;">Welcome!!👍</h1>
-  <div class="face2 " style="background-color: #1a202c;height: 500px; width: 1800px; justify-self: center; border-radius: 30px; margin-top: 50px; position: relative; ">
-  <h5 style=" left: 300px; position: absolute; color: #4299e1; top:130px;"> Hello, I'm ALPHA </h5>
-  <h3  class="type"> Are you looking for a freelancer expert?.</h3>
-    <h3></h3>
 </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-</body>
+<!-- =============================================
+     SITE
+     ============================================= -->
+<div id="site">
 
+<!-- NAV -->
+<nav id="nav">
+  <span class="nav-logo"><b>Alpha</b>.ai</span>
+  <ul class="nav-ul">
+    <li><a href="#about">about</a></li>
+    <li><a href="#skills">skills</a></li>
+    <li><a href="#projects">projects</a></li>
+    <li><a href="#contact">contact</a></li>
+  </ul>
+  <button class="nav-burger" id="burger" aria-label="menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <canvas id="neural-canvas"></canvas>
+  <div class="hero-content">
+
+    <!-- LEFT: name + headline + CTA -->
+    <div class="hero-left">
+      <div class="hero-sys-line">
+        <span class="sys-badge">AI / ML Engineer</span>
+        <span class="sys-slash">///</span>
+        <span class="sys-badge" style="opacity:.5">Active</span>
+      </div>
+      <h1 class="hero-name">
+        <span class="dim-name">Raji Abdul</span>
+        <span class="ice-name"><span class="glitch" data-text="Malik">Malik</span></span>
+      </h1>
+      <p class="hero-headline">
+        <em>Building intelligent systems</em><br/>
+        and scalable machine learning solutions.
+      </p>
+      <div class="hero-cta">
+        <a href="#projects" class="btn btn-primary">View Projects</a>
+        <a href="#contact" class="btn btn-outline">Get In Touch</a>
+      </div>
+    </div>
+
+    <!-- RIGHT: 3D Rubik's Cube -->
+    <div class="hero-right">
+      <div id="rubik-wrap"></div>
+    </div>
+
+  </div>
+
+  <div class="hero-scroll">
+    <span class="scroll-bar"></span>
+    <span class="scroll-txt">scroll</span>
+  </div>
+  <div class="hero-coords">
+    <div>LAT 09°04'N</div>
+    <div>LNG 007°29'E</div>
+    <div style="margin-top:8px;color:var(--ice);font-size:9px;">● ONLINE</div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid max-w">
+    <div class="about-sigil reveal">
+      <div class="sigil-name">Who<br/><span>I Am.</span></div>
+      <div class="sigil-line"></div>
+      <div class="sigil-role">AI/ML Engineer</div>
+      <div class="sigil-id">
+        <div>ID: RAJI_ABDULMALIK</div>
+        <div>STATUS: AVAILABLE</div>
+        <div>BASE: Nigeria</div>
+      </div>
+    </div>
+    <div class="about-text">
+      <p class="reveal d1">
+        I'm an <strong>AI/ML Engineer</strong> who builds systems that perceive, learn, and adapt. My work spans the complete machine learning lifecycle — from exploratory data analysis and feature engineering to designing custom architectures, training, evaluating, and deploying models that operate at scale.
+      </p>
+      <p class="reveal d2">
+        I specialize in <strong>deep learning</strong>, computer vision, and natural language processing. I don't just run experiments — I build reproducible pipelines, maintain clean codebases, and ship models that perform outside the notebook. Engineering discipline is as important to me as research creativity.
+      </p>
+      <p class="reveal d3">
+        Whether it's a <strong>custom CNN architecture</strong>, a production inference API, or a data pipeline that feeds millions of records, I approach every problem from first principles — choosing the right tool, not just the popular one.
+      </p>
+      <div class="metrics-row reveal d4">
+        <div class="metric"><div class="metric-val">2</div><div class="metric-lbl">AI products startups worked on</div></div>
+        <div class="metric"><div class="metric-val">CNN</div><div class="metric-lbl">Architecture research</div></div>
+        <div class="metric"><div class="metric-val">∞</div><div class="metric-lbl">Curiosity</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="max-w">
+    <div class="sec-eyebrow reveal">
+      <span class="sec-eyebrow-bar"></span>
+      <span class="sec-eyebrow-txt">Expertise</span>
+      <span class="sec-eyebrow-num">02</span>
+    </div>
+    <h2 class="sec-title reveal d1">What I <em>work with</em></h2>
+    <div class="skills-terminal reveal d2">
+      <div class="terminal-titlebar">
+        <div class="t-dot red"></div><div class="t-dot amber"></div><div class="t-dot green"></div>
+        <span class="terminal-title">raji@neural-os:~$ cat skills.json</span>
+      </div>
+      <div class="terminal-body">
+        <div class="terminal-row">
+          <div class="terminal-cat">ML &amp; AI</div>
+          <div class="terminal-skills">
+            <span class="t-skill">Neural Networks</span>
+            <span class="t-skill">NLP</span>
+            <span class="t-skill">Computer Vision</span>
+            <span class="t-skill">Supervised Learning</span>
+            <span class="t-skill">Deep Learning</span>
+          </div>
+        </div>
+        <div class="terminal-row">
+          <div class="terminal-cat">Frameworks</div>
+          <div class="terminal-skills">
+            <span class="t-skill">PyTorch</span>
+            <span class="t-skill">TensorFlow</span>
+            <span class="t-skill">Scikit-Learn</span>
+            <span class="t-skill">Keras</span>
+            <span class="t-skill">Flask</span>
+          </div>
+        </div>
+        <div class="terminal-row">
+          <div class="terminal-cat">Languages</div>
+          <div class="terminal-skills">
+            <span class="t-skill">Python</span>
+            <span class="t-skill">SQL</span>
+            <span class="t-skill">HTML,CSS,JS</span>
+          </div>
+        </div>
+        <div class="terminal-row">
+          <div class="terminal-cat">MLOps &amp; Tools</div>
+          <div class="terminal-skills">
+            <span class="t-skill">Docker</span>
+            <span class="t-skill">Git</span>
+            <span class="t-skill">AWS / GCP</span>
+            <span class="t-skill">Model Deployment</span>
+            <span class="t-skill">Data Pipelines</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="max-w">
+    <div class="sec-eyebrow reveal">
+      <span class="sec-eyebrow-bar"></span>
+      <span class="sec-eyebrow-txt">Work</span>
+      <span class="sec-eyebrow-num">03</span>
+    </div>
+    <h2 class="sec-title reveal d1">Selected <em>projects</em></h2>
+    <div class="projects-grid">
+      <article class="proj-card reveal d1">
+        <div class="proj-card-band"></div>
+        <div class="proj-card-body">
+          <span class="proj-id">01 / MVP</span>
+          <h3 class="proj-title">LOCUS-ID</h3>
+          <p class="proj-desc">Built the MVP for an AI-driven attendance management solution. Leverages intelligent identity recognition pipelines to automate and streamline verification at scale — developed under Hamz Labs.</p>
+          <div class="proj-tags">
+            <span class="proj-tag">Computer Vision</span>
+            <span class="proj-tag">Python</span>
+            <span class="proj-tag">AI / ML</span>
+          </div>
+        </div>
+        <div class="proj-footer">
+          <span class="proj-status"><span class="status-pulse"></span>In Development</span>
+          <a href="https://github.com/Ma1la3ka" target="_blank" rel="noopener" class="proj-arrow" aria-label="GitHub">↗</a>
+        </div>
+      </article>
+      <article class="proj-card reveal d2">
+        <div class="proj-card-band"></div>
+        <div class="proj-card-body">
+          <span class="proj-id">02 / MVP</span>
+          <h3 class="proj-title">SkillChain</h3>
+          <p class="proj-desc">Built the MVP for a gig economy platform connecting skilled artisans with customers. Integrated geolocation services and Squad APIs to power intelligent service matching and seamless payment flows.</p>
+          <div class="proj-tags">
+            <span class="proj-tag">Geolocation</span>
+            <span class="proj-tag">API Integration</span>
+            <span class="proj-tag">Full-Stack</span>
+          </div>
+        </div>
+        <div class="proj-footer">
+          <span class="proj-status"><span class="status-pulse"></span>Live</span>
+          <a href="https://skillchain-frontend-omega.vercel.app/" target="_blank" rel="noopener" class="proj-arrow" aria-label="GitHub">↗</a>
+        </div>
+      <!-- </article>
+      <article class="proj-card reveal d3">
+        <div class="proj-card-band"></div>
+        <div class="proj-card-body">
+          <span class="proj-id">03 / Research</span>
+          <h3 class="proj-title">Crop Disease Detection</h3>
+          <p class="proj-desc">Developed an enhanced CNN architecture for automated diagnosis of crop diseases from plant imagery. Architectural modifications and targeted data augmentation strategies improved accuracy over standard baselines.</p>
+          <div class="proj-tags">
+            <span class="proj-tag">CNN</span>
+            <span class="proj-tag">PyTorch</span>
+            <span class="proj-tag">Computer Vision</span>
+          </div>
+        </div>
+        <div class="proj-footer">
+          <span class="proj-status"><span class="status-pulse"></span>Research</span>
+          <a href="https://github.com/Ma1la3ka" target="_blank" rel="noopener" class="proj-arrow" aria-label="GitHub">↗</a>
+        </div>
+      </article> -->
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-wrap">
+    <div class="contact-left">
+      <div class="sec-eyebrow reveal">
+        <span class="sec-eyebrow-bar"></span>
+        <span class="sec-eyebrow-txt">Contact</span>
+        <span class="sec-eyebrow-num">04</span>
+      </div>
+      <h2 class="reveal d1">Let's build<br/><em>together.</em></h2>
+      <p class="reveal d2">Have a project in mind, a problem to solve, or just want to talk AI? I'm open to collaborations, research, and the right opportunities.</p>
+      <div class="contact-links">
+        <a href="https://github.com/Ma1la3ka" target="_blank" rel="noopener" class="c-link reveal d2">
+          <div class="c-link-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6b7490" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+          </div>
+          <div>
+            <div class="c-link-label">GitHub</div>
+            <div class="c-link-val">@Ma1la3ka </div>
+          </div>
+          <span class="c-link-arrow">→</span>
+        </a>
+        <a href="https://linkedin.com/in/alphaprimal" target="_blank" rel="noopener" class="c-link reveal d3">
+          <div class="c-link-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6b7490" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          </div>
+          <div>
+            <div class="c-link-label">LinkedIn</div>
+            <div class="c-link-val">Raji Abdul Malik</div>
+          </div>
+          <span class="c-link-arrow">→</span>
+        </a>
+      </div>
+    </div>
+    <div class="reveal d2">
+      <div class="cta-box">
+        <div class="cta-box-label">Direct Message</div>
+        <div class="cta-box-title">Ready to collaborate?</div>
+        <div class="cta-box-sub">The fastest way to reach me is directly on WhatsApp. No gatekeepers, no delays.</div>
+        <a href="https://wa.me/2348164143886" target="_blank" rel="noopener" class="wa-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="#000"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Chat on WhatsApp
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>Raji Abdul Malik — AI/ML Engineer</span>
+  <span>© 2026 — All rights reserved</span>
+</footer>
+
+</div><!-- /site -->
+
+<script src="script.js"></script>
+<script src="rubik.js"></script>
+</body>
 </html>
