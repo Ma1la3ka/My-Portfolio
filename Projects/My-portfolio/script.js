@@ -99,6 +99,7 @@
     setTimeout(()=>{
       bootEl.style.display = 'none';
       siteEl.classList.add('visible');
+      document.dispatchEvent(new CustomEvent('neuralOSReady')); /* NEW — signals AlphaBot to walk in */
       document.body.classList.add('site-ready');
       document.querySelectorAll('.reveal').forEach(el=>{
         const obs = new IntersectionObserver(entries=>{
