@@ -309,24 +309,52 @@
 
 <script src="script.js"></script>
 <script src="Rubik.js"></script>
-
 <!-- =============================================
-     ALPHABOT MASCOT WIDGET
+     ALPHABOT MASCOT WIDGET — v3
+     Replace your ENTIRE existing #ab-root block (div + style + script)
+     with everything below, before </body>.
      ============================================= -->
 <div id="ab-root">
   <div id="ab-robot" aria-label="Chat with AlphaBot" role="button" tabindex="0">
     <div id="ab-bubble">&gt; talk to me<span class="ab-cursor">_</span></div>
+
+    <div class="ab-shadow"></div>
+
     <div class="ab-antenna"><span class="ab-antenna-dot"></span></div>
+
     <div class="ab-head">
-      <span class="ab-eye ab-eye-l"></span>
-      <span class="ab-eye ab-eye-r"></span>
+      <div class="ab-visor">
+        <span class="ab-eye ab-eye-l"></span>
+        <span class="ab-eye ab-eye-r"></span>
+      </div>
+      <span class="ab-ear ab-ear-l"></span>
+      <span class="ab-ear ab-ear-r"></span>
     </div>
+
+    <div class="ab-neck"></div>
+
     <div class="ab-body">
-      <div class="ab-arm ab-arm-l"></div>
-      <div class="ab-arm ab-arm-r" id="ab-wave-arm"></div>
+      <span class="ab-chest-ring"></span>
       <span class="ab-chest-light"></span>
+      <span class="ab-vent ab-vent-l"></span>
+      <span class="ab-vent ab-vent-r"></span>
+
+      <div class="ab-arm ab-arm-l">
+        <div class="ab-forearm-l"></div>
+      </div>
+      <div class="ab-arm ab-arm-r" id="ab-wave-arm">
+        <div class="ab-forearm-r"><span class="ab-hand"></span></div>
+      </div>
     </div>
-    <div class="ab-feet"><span></span><span></span></div>
+
+    <div class="ab-legs">
+      <span class="ab-leg ab-leg-l"></span>
+      <span class="ab-leg ab-leg-r"></span>
+    </div>
+    <div class="ab-feet">
+      <span class="ab-foot ab-foot-l"></span>
+      <span class="ab-foot ab-foot-r"></span>
+    </div>
   </div>
 
   <div id="ab-panel" class="ab-hidden">
@@ -363,61 +391,137 @@
     --ab-snow: #e4eaf5;
     --ab-mist: #6b7490;
     --ab-ghost: #2d3350;
+    --ab-metal: #1a2032;
     --ab-mono: 'Share Tech Mono', monospace;
     --ab-display: 'Unbounded', sans-serif;
     --ab-body: 'DM Mono', monospace;
     position: fixed;
     bottom: 20px;
-    right: 20px;
+    right: 24px;
     z-index: 300;
   }
+
+  /* ===== ROBOT ===== */
   #ab-robot {
     position: relative;
-    width: 52px;
-    height: 66px;
+    width: 64px;
+    height: 92px;
     cursor: none;
     opacity: 0;
-    transform: translate(140px, 30px) scale(0.85);
+    transform: translate(160px, 30px) scale(0.85);
   }
   #ab-robot.ab-enter { animation: ab-enter 1s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
-  #ab-robot.ab-idle { animation: ab-float 2.6s ease-in-out infinite; }
+  #ab-robot.ab-idle { animation: ab-float 3s ease-in-out infinite; }
   #ab-robot.ab-gone { display: none; }
+
   @keyframes ab-enter { to { opacity: 1; transform: translate(0, 0) scale(1); } }
-  @keyframes ab-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
-  .ab-antenna { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); width: 2px; height: 10px; background: var(--ab-mist); }
+  @keyframes ab-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+
+  .ab-shadow {
+    position: absolute; bottom: -4px; left: 50%; transform: translateX(-50%);
+    width: 34px; height: 6px; border-radius: 50%;
+    background: radial-gradient(ellipse, rgba(0,0,0,0.5) 0%, transparent 75%);
+  }
+
+  .ab-antenna { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); width: 2px; height: 12px; background: var(--ab-mist); }
   .ab-antenna-dot {
-    position: absolute; top: -5px; left: -3px; width: 8px; height: 8px; border-radius: 50%;
-    background: var(--ab-ice); box-shadow: 0 0 6px var(--ab-ice);
+    position: absolute; top: -6px; left: -3.5px; width: 9px; height: 9px; border-radius: 50%;
+    background: var(--ab-ice); box-shadow: 0 0 8px var(--ab-ice), 0 0 16px var(--ab-ice-glow);
     animation: ab-pulse 1.4s ease-in-out infinite;
   }
-  @keyframes ab-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+  @keyframes ab-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
   .ab-head {
-    position: relative; width: 30px; height: 22px; margin: 0 auto;
-    background: var(--ab-void); border: 1.5px solid var(--ab-ice); border-radius: 6px;
-    display: flex; align-items: center; justify-content: center; gap: 6px;
-    box-shadow: 0 0 10px var(--ab-ice-glow);
+    position: relative; width: 38px; height: 30px; margin: 0 auto;
+    background: linear-gradient(180deg, #16192a, var(--ab-void));
+    border: 1.5px solid var(--ab-rim-h); border-radius: 10px 10px 8px 8px;
+    box-shadow: inset 0 -2px 4px rgba(0,0,0,0.4), 0 0 14px rgba(168,240,232,0.08);
   }
-  .ab-eye { width: 5px; height: 5px; border-radius: 50%; background: var(--ab-ice); animation: ab-pulse 2.2s ease-in-out infinite; }
-  .ab-eye-r { animation-delay: 0.15s; }
-  .ab-body { position: relative; width: 34px; height: 26px; margin: 3px auto 0; background: var(--ab-void); border: 1.5px solid var(--ab-ghost); border-radius: 6px; }
-  .ab-chest-light { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 6px; height: 6px; border-radius: 50%; background: var(--ab-ice); opacity: 0.85; }
-  .ab-arm { position: absolute; top: 4px; width: 4px; height: 14px; background: var(--ab-ghost); border-radius: 2px; }
-  .ab-arm-l { left: -6px; }
-  .ab-arm-r { right: -6px; transform-origin: top center; }
-  #ab-robot.ab-waving .ab-arm-r { animation: ab-wave 0.5s ease-in-out 3; background: var(--ab-ice); }
-  @keyframes ab-wave { 0%, 100% { transform: rotate(0deg); } 30% { transform: rotate(-40deg); } 60% { transform: rotate(10deg); } }
-  .ab-feet { display: flex; justify-content: center; gap: 8px; margin-top: 2px; }
-  .ab-feet span { width: 8px; height: 3px; background: var(--ab-ghost); border-radius: 1px; }
+  .ab-ear { position: absolute; top: 8px; width: 4px; height: 10px; background: var(--ab-ghost); border-radius: 2px; }
+  .ab-ear-l { left: -5px; }
+  .ab-ear-r { right: -5px; }
+
+  .ab-visor {
+    position: absolute; top: 7px; left: 50%; transform: translateX(-50%);
+    width: 28px; height: 12px; background: var(--ab-void);
+    border: 1px solid var(--ab-ice); border-radius: 6px;
+    display: flex; align-items: center; justify-content: center; gap: 7px;
+    box-shadow: 0 0 8px var(--ab-ice-glow), inset 0 0 6px rgba(168,240,232,0.15);
+  }
+  .ab-eye { width: 4px; height: 4px; border-radius: 50%; background: var(--ab-ice); box-shadow: 0 0 5px var(--ab-ice); animation: ab-pulse 2.4s ease-in-out infinite; }
+  .ab-eye-r { animation-delay: 0.2s; }
+
+  .ab-neck { width: 10px; height: 4px; margin: 0 auto; background: var(--ab-ghost); }
+
+  .ab-body {
+    position: relative; width: 44px; height: 34px; margin: 0 auto;
+    background: linear-gradient(180deg, #171b2c, var(--ab-void));
+    border: 1.5px solid var(--ab-rim-h); border-radius: 9px;
+    box-shadow: inset 0 -3px 5px rgba(0,0,0,0.4);
+  }
+  .ab-chest-ring {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 15px; height: 15px; border-radius: 50%; border: 1.5px solid var(--ab-ice);
+    opacity: 0.5;
+  }
+  .ab-chest-light {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 6px; height: 6px; border-radius: 50%; background: var(--ab-ice);
+    box-shadow: 0 0 8px var(--ab-ice);
+    animation: ab-pulse 2s ease-in-out infinite;
+  }
+  .ab-vent { position: absolute; top: 6px; width: 8px; height: 2px; background: var(--ab-ghost); border-radius: 1px; }
+  .ab-vent-l { left: 5px; }
+  .ab-vent-r { right: 5px; }
+
+  /* Jointed arms: upper arm rotates at shoulder, forearm rotates at elbow */
+  .ab-arm {
+    position: absolute; top: 2px; width: 6px; height: 16px;
+    background: var(--ab-metal); border: 1px solid var(--ab-rim-h); border-radius: 3px;
+    transform-origin: top center;
+  }
+  .ab-arm-l { left: -7px; }
+  .ab-arm-r { right: -7px; }
+  .ab-forearm-l, .ab-forearm-r {
+    position: absolute; top: 14px; left: 50%; transform-origin: top center;
+    width: 5px; height: 14px; background: var(--ab-metal); border: 1px solid var(--ab-rim-h); border-radius: 3px;
+    transform: translateX(-50%) rotate(8deg);
+  }
+  .ab-hand {
+    position: absolute; bottom: -3px; left: 50%; transform: translateX(-50%);
+    width: 7px; height: 7px; border-radius: 50%; background: var(--ab-ice); opacity: 0.85;
+  }
+
+  /* Waving: shoulder swings out, elbow follows a beat later for a natural wave */
+  #ab-robot.ab-waving .ab-arm-r { animation: ab-wave-shoulder 0.7s ease-in-out infinite; }
+  #ab-robot.ab-waving .ab-forearm-r { animation: ab-wave-elbow 0.7s ease-in-out infinite; }
+  @keyframes ab-wave-shoulder {
+    0%, 100% { transform: rotate(-10deg); }
+    50% { transform: rotate(-55deg); }
+  }
+  @keyframes ab-wave-elbow {
+    0%, 100% { transform: translateX(-50%) rotate(10deg); }
+    50% { transform: translateX(-50%) rotate(-25deg); }
+  }
+
+  .ab-legs { display: flex; justify-content: center; gap: 10px; margin-top: 1px; }
+  .ab-leg { width: 6px; height: 8px; background: var(--ab-metal); border: 1px solid var(--ab-rim-h); border-radius: 2px; }
+  .ab-feet { display: flex; justify-content: center; gap: 8px; margin-top: -1px; }
+  .ab-foot { width: 10px; height: 4px; background: var(--ab-ghost); border-radius: 2px 2px 3px 3px; }
+
   #ab-bubble {
-    position: absolute; bottom: 78px; right: -6px;
+    position: absolute; bottom: 100px; right: -10px;
     background: var(--ab-void); border: 1px solid var(--ab-ice); color: var(--ab-ice);
     font-family: var(--ab-mono); font-size: 10px; white-space: nowrap;
-    padding: 6px 9px; border-radius: 4px; opacity: 0; pointer-events: none;
+    padding: 6px 10px; border-radius: 5px; opacity: 0; pointer-events: none;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.4);
   }
   #ab-robot.ab-show-bubble #ab-bubble { animation: ab-bubble-in 0.4s ease forwards; }
-  @keyframes ab-bubble-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes ab-bubble-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 0.95; transform: translateY(0); } }
   .ab-cursor { animation: ab-blink 1s step-end infinite; }
   @keyframes ab-blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
+
+  /* ===== CHAT PANEL ===== */
   #ab-panel {
     position: absolute; bottom: 0; right: 0; width: 340px; max-width: 88vw;
     height: 460px; max-height: 70vh;
@@ -426,24 +530,28 @@
     box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px var(--ab-ice-dim);
   }
   .ab-hidden { display: none !important; }
+
   #ab-panel-header { display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; border-bottom: 1px solid var(--ab-rim); background: var(--ab-surface); }
   #ab-panel-title { font-family: var(--ab-display); color: var(--ab-snow); font-size: 13px; font-weight: 900; letter-spacing: -0.01em; }
   #ab-panel-title span { color: var(--ab-ice); }
   #ab-panel-sub { font-family: var(--ab-mono); color: var(--ab-ghost); font-size: 9px; margin-top: 3px; letter-spacing: 0.06em; }
   #ab-panel-close { background: none; border: none; color: var(--ab-mist); cursor: none; font-size: 14px; }
   #ab-panel-close:hover { color: var(--ab-ice); }
+
   #ab-messages { flex: 1; overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 10px; }
   .ab-msg { font-family: var(--ab-body); font-size: 12px; line-height: 1.6; padding: 9px 11px; border-radius: 5px; max-width: 88%; white-space: pre-wrap; font-weight: 300; }
   .ab-bot { color: var(--ab-snow); background: var(--ab-surface); border: 1px solid var(--ab-rim); align-self: flex-start; }
   .ab-user { color: var(--ab-void); background: var(--ab-ice); align-self: flex-end; font-weight: 400; }
+
   #ab-input-row { display: flex; border-top: 1px solid var(--ab-rim); }
   #ab-input { flex: 1; background: var(--ab-void); border: none; color: var(--ab-snow); padding: 11px 12px; font-family: var(--ab-body); font-size: 12px; outline: none; cursor: text; }
   #ab-input::placeholder { color: var(--ab-ghost); }
   #ab-send { background: var(--ab-ice); border: none; color: var(--ab-void); width: 42px; cursor: none; font-size: 14px; }
   #ab-send:disabled { opacity: 0.5; cursor: not-allowed; }
   #ab-status { font-family: var(--ab-mono); font-size: 9px; color: var(--ab-ghost); padding: 4px 11px 7px; min-height: 14px; letter-spacing: 0.04em; }
+
   @media (max-width: 480px) {
-    #ab-root { bottom: 12px; right: 12px; }
+    #ab-root { bottom: 12px; right: 14px; }
     #ab-robot { transform-origin: bottom right; }
     #ab-panel {
       position: fixed; top: auto; bottom: 0; left: 0; right: 0;
@@ -456,7 +564,11 @@
 <script>
 (function () {
   // ⚠ SET THIS to your real deployed Render URL + /chat
-  const API_URL = "https://alphabot-api-5vjv.onrender.com/chat";
+  const API_URL = "https://YOUR-BACKEND-URL/chat";
+
+  // How often the robot re-waves while idle, in milliseconds
+  const REWAVE_INTERVAL_MS = 6000;
+  const WAVE_DURATION_MS = 2100; // matches 3 cycles of the 0.7s wave animation
 
   const robot = document.getElementById("ab-robot");
   const panel = document.getElementById("ab-panel");
@@ -467,6 +579,27 @@
   const statusEl = document.getElementById("ab-status");
 
   let history = [];
+  let rewaveTimer = null;
+  let chatIsOpen = false;
+
+  function doOneWave(callback) {
+    robot.classList.add("ab-waving");
+    setTimeout(() => {
+      robot.classList.remove("ab-waving");
+      if (callback) callback();
+    }, WAVE_DURATION_MS);
+  }
+
+  function startRewaveLoop() {
+    stopRewaveLoop();
+    rewaveTimer = setInterval(() => {
+      if (!chatIsOpen) doOneWave();
+    }, REWAVE_INTERVAL_MS);
+  }
+  function stopRewaveLoop() {
+    if (rewaveTimer) clearInterval(rewaveTimer);
+    rewaveTimer = null;
+  }
 
   function playEntrance() {
     robot.classList.add("ab-enter");
@@ -475,32 +608,27 @@
   robot.addEventListener("animationend", function onEnter(e) {
     if (e.animationName !== "ab-enter") return;
     robot.removeEventListener("animationend", onEnter);
-    robot.classList.add("ab-waving");
-    setTimeout(() => {
-      robot.classList.remove("ab-waving");
+    doOneWave(() => {
       robot.classList.add("ab-idle", "ab-show-bubble");
-    }, 1600);
+      startRewaveLoop(); // robot now waves again every REWAVE_INTERVAL_MS, indefinitely
+    });
   });
 
   document.addEventListener("neuralOSReady", playEntrance);
-
-  setTimeout(() => {
-    if (!robot.classList.contains("ab-enter")) playEntrance();
-  }, 7000);
+  setTimeout(() => { if (!robot.classList.contains("ab-enter")) playEntrance(); }, 7000);
 
   function openChat() {
+    chatIsOpen = true;
     robot.classList.add("ab-gone");
     panel.classList.remove("ab-hidden");
     input.focus();
   }
   function closeChat() {
+    chatIsOpen = false;
     panel.classList.add("ab-hidden");
-    robot.classList.remove("ab-gone", "ab-show-bubble");
-    robot.classList.add("ab-waving");
-    setTimeout(() => {
-      robot.classList.remove("ab-waving");
-      robot.classList.add("ab-show-bubble");
-    }, 1600);
+    robot.classList.remove("ab-gone");
+    // robot is already ab-idle from before — no need to replay entrance,
+    // it just resumes its periodic waving right where it left off
   }
 
   robot.addEventListener("click", openChat);
