@@ -606,14 +606,14 @@
   }
 
   robot.addEventListener("animationend", function onEnter(e) {
-    if (e.animationName !== "ab-enter") return;
-    robot.removeEventListener("animationend", onEnter);
-    doOneWave(() => {
-      robot.classList.add("ab-idle", "ab-show-bubble");
-      startRewaveLoop(); // robot now waves again every REWAVE_INTERVAL_MS, indefinitely
-    });
+  if (e.animationName !== "ab-enter") return;
+  robot.removeEventListener("animationend", onEnter);
+  robot.style.opacity = "1";   // NEW — locks visibility regardless of which animation class takes over next
+  doOneWave(() => {
+    robot.classList.add("ab-idle", "ab-show-bubble");
+    startRewaveLoop();
   });
-
+});
   document.addEventListener("neuralOSReady", playEntrance);
   setTimeout(() => { if (!robot.classList.contains("ab-enter")) playEntrance(); }, 7000);
 
