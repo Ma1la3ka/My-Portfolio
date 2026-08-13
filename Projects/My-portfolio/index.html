@@ -365,8 +365,16 @@
         <div id="ab-panel-title">ALPHA<span>BOT</span></div>
         <div id="ab-panel-sub">RAG assistant // trained on this portfolio</div>
       </div>
+      <button id="ab-call-btn" aria-label="Call AlphaBot" title="Call AlphaBot">📞</button>
       <button id="ab-panel-close" aria-label="Close chat">✕</button>
     </div>
+
+    <div id="ab-call-overlay" class="ab-hidden">
+      <div id="ab-call-avatar">🤖</div>
+      <div id="ab-call-status">Calling AlphaBot...</div>
+      <button id="ab-call-end">End Call</button>
+    </div>
+
     <div id="ab-messages">
       <div class="ab-msg ab-bot">
         &gt; Hey, I'm AlphaBot — ask me about Raji's projects, stack, or experience.
@@ -550,6 +558,31 @@
   #ab-input::placeholder { color: var(--ab-ghost); }
   #ab-send { background: var(--ab-ice); border: none; color: var(--ab-void); width: 42px; cursor: none; font-size: 14px; }
   #ab-send:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  /* ===== CALL MODE ===== */
+  #ab-call-btn {
+    background: none; border: none; color: var(--ab-ice); font-size: 15px;
+    cursor: pointer; margin-right: 8px; padding: 0 4px;
+    animation: ab-call-shake 2.5s ease-in-out infinite;
+  }
+  @keyframes ab-call-shake {
+    0%, 88%, 100% { transform: rotate(0deg); }
+    90% { transform: rotate(-12deg); } 92% { transform: rotate(10deg); }
+    94% { transform: rotate(-8deg); } 96% { transform: rotate(6deg); } 98% { transform: rotate(0deg); }
+  }
+  #ab-call-overlay {
+    position: absolute; inset: 0; background: var(--ab-panel-bg);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 16px; z-index: 10;
+  }
+  #ab-call-overlay.ab-hidden { display: none; }
+  #ab-call-avatar { font-size: 44px; animation: ab-float 2s ease-in-out infinite; }
+  #ab-call-status { color: var(--ab-ice); font-family: var(--ab-mono); font-size: 12px; text-align: center; padding: 0 20px; }
+  #ab-call-status.ab-speaking { color: var(--ab-snow); }
+  #ab-call-end {
+    background: #e05252; color: white; border: none; padding: 8px 22px;
+    border-radius: 20px; cursor: pointer; font-family: var(--ab-mono); font-size: 12px;
+  }
   #ab-status { font-family: var(--ab-mono); font-size: 9px; color: var(--ab-ghost); padding: 4px 11px 7px; min-height: 14px; letter-spacing: 0.04em; }
 
   @media (max-width: 480px) {
@@ -674,8 +707,124 @@
     }
   }
 
+  // ===== VOICE TUNING (adjust these to change how AlphaBot sounds) =====
+  const VOICE_RATE = 1.05;     // speed: 0.1 (very slow) to 10 (very fast) — 1.0 is normal
+  const VOICE_PITCH = 1.0;     // pitch: 0 (deep) to 2 (high) — 1.0 is normal
+  const VOICE_VOLUME = 1.0;    // 0 (silent) to 1 (full volume)
+  const PREFERRED_VOICE_NAMES = ["Google UK English Male", "Daniel", "Microsoft Guy"]; // tried in order, falls back to browser default
+  const GREETING_TEXT = "Hey, I'm AlphaBot. Ask me about Raji's projects, stack, or experience.";
+
+  let selectedVoice = null;
+  function loadVoice() {
+    const voices = speechSynthesis.getVoices();
+    if (!voices.length) return;
+    selectedVoice = voices.find(v => PREFERRED_VOICE_NAMES.includes(v.name))
+                 || voices.find(v => v.lang === "en-US" || v.lang === "en-GB")
+                 || voices[0];
+  }
+  loadVoice();
+  if (speechSynthesis.onvoiceschanged !== undefined) {
+    speechSynthesis.onvoiceschanged = loadVoice; // voices load async on first page visit
+  }
+
+  function speakText(text, onEndCallback) {
+    speechSynthesis.cancel(); // stop any overlapping speech first
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.rate = VOICE_RATE;
+    utter.pitch = VOICE_PITCH;
+    utter.volume = VOICE_VOLUME;
+    if (selectedVoice) utter.voice = selectedVoice;
+    if (onEndCallback) utter.onend = onEndCallback;
+    speechSynthesis.speak(utter);
+  }
+
   sendBtn.addEventListener("click", sendMessage);
   input.addEventListener("keydown", (e) => { if (e.key === "Enter") sendMessage(); });
+
+  // ===== CALL MODE (hands-free voice loop) =====
+  const callBtn = document.getElementById("ab-call-btn");
+  const callOverlay = document.getElementById("ab-call-overlay");
+  const callStatus = document.getElementById("ab-call-status");
+  const callEndBtn = document.getElementById("ab-call-end");
+
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const MAX_CALLS_PER_SESSION = 5; // gated like Character.AI's free-tier voice cap — don't leave this unlimited
+  let callsUsedThisSession = 0;
+  let callActive = false;
+
+  if (!SpeechRecognition || !window.speechSynthesis) {
+    callBtn.style.display = "none"; // graceful fallback on unsupported browsers
+  } else {
+    const callRecognition = new SpeechRecognition();
+    callRecognition.lang = "en-US";
+    callRecognition.continuous = false;
+    callRecognition.interimResults = false;
+
+    callBtn.addEventListener("click", () => {
+      if (callsUsedThisSession >= MAX_CALLS_PER_SESSION) {
+        callStatus.textContent = "Call limit reached for this session — refresh to try again.";
+        callOverlay.classList.remove("ab-hidden");
+        return;
+      }
+      callsUsedThisSession++;
+      callActive = true;
+      callOverlay.classList.remove("ab-hidden");
+      callStatus.textContent = "AlphaBot speaking...";
+      callStatus.classList.add("ab-speaking");
+      speakText(GREETING_TEXT, () => { if (callActive) listenLoop(); });
+    });
+
+    function listenLoop() {
+      if (!callActive) return;
+      callStatus.textContent = "Listening...";
+      callStatus.classList.remove("ab-speaking");
+      try { callRecognition.start(); } catch (e) { /* already started, ignore */ }
+    }
+
+    callRecognition.addEventListener("result", async (e) => {
+      const transcript = e.results[0][0].transcript;
+      callStatus.textContent = "Thinking...";
+      history.push({ role: "user", content: transcript });
+      appendMessage("user", transcript); // keeps text chat in sync with the call
+
+      try {
+        const res = await fetch(API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: transcript, history: history.slice(-10) }),
+        });
+        if (!res.ok) throw new Error("Server error (" + res.status + ")");
+        const data = await res.json();
+        history.push({ role: "assistant", content: data.reply });
+        appendMessage("assistant", data.reply);
+
+        callStatus.textContent = "AlphaBot speaking...";
+        callStatus.classList.add("ab-speaking");
+        speakText(data.reply, () => { if (callActive) listenLoop(); }); // auto re-listen once it's done talking
+      } catch (err) {
+        callStatus.textContent = "Connection issue: " + err.message;
+      }
+    });
+
+    callRecognition.addEventListener("end", () => {
+      // if nothing was heard, quietly retry rather than dead-ending the call
+      if (callActive && callStatus.textContent === "Listening...") setTimeout(listenLoop, 300);
+    });
+
+    callRecognition.addEventListener("error", (e) => {
+      if (e.error === "not-allowed") {
+        callStatus.textContent = "Mic permission denied — allow mic access to use Call mode.";
+      }
+    });
+
+    function endCall() {
+      callActive = false;
+      speechSynthesis.cancel();
+      try { callRecognition.abort(); } catch (e) {}
+      callOverlay.classList.add("ab-hidden");
+    }
+    callEndBtn.addEventListener("click", endCall);
+  }
 })();
 </script>
 
